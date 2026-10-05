@@ -1,4 +1,4 @@
-# Precast Studio — Revit add-in for precast wall panelization (with AI commands)
+# Precast Studio : Revit add-in for precast wall panelization (with AI commands)
 
 [![build](https://github.com/Huynguyenhoang1/PrecastStudio/actions/workflows/build.yml/badge.svg)](https://github.com/Huynguyenhoang1/PrecastStudio/actions/workflows/build.yml)
 
