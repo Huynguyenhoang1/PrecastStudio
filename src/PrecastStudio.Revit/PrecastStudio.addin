@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Precast Studio</Name>
+    <Assembly>PrecastStudio\PrecastStudio.Revit.dll</Assembly>
+    <FullClassName>PrecastStudio.Revit.App</FullClassName>
+    <ClientId>6f1b7c52-3a4e-4d8e-9a51-2b0f6c9d7e41</ClientId>
+    <VendorId>NHHuy</VendorId>
+    <VendorDescription>Nguyen Hoang Huy, huynguyenhoang.nuce@gmail.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

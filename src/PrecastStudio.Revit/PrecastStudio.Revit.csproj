@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PlatformTarget>x64</PlatformTarget>
+    <Description>Revit 2025+ add-in: split walls into precast panels with Parts, mark them, preview lifting anchors.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Reference assemblies only: Revit itself provides the real DLLs at runtime. -->
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="2025.*" ExcludeAssets="runtime" />
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="2025.*" ExcludeAssets="runtime" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PrecastStudio.Core\PrecastStudio.Core.csproj" />
+    <ProjectReference Include="..\PrecastStudio.AI\PrecastStudio.AI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="PrecastStudio.addin" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,99 @@
+<Window x:Class="PrecastStudio.Revit.Views.PanelizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PrecastStudio.Revit.ViewModels"
+        Title="Precast Studio – Panelize Wall"
+        Width="720" Height="640" WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="4,2" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Margin="12" d:DataContext="{d:DesignInstance vm:PanelizeViewModel}"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+
+        <TextBlock DockPanel.Dock="Top" Text="{Binding WallSummary}" FontWeight="SemiBold" Margin="0,0,0,8" />
+
+        <!-- AI instruction: only shown when an API key is configured -->
+        <GroupBox DockPanel.Dock="Top" Header="Ask AI (Vietnamese or English)" Margin="0,0,0,8"
+                  Visibility="{Binding IsAiAvailable, Converter={StaticResource BoolToVisibility}}">
+            <DockPanel Margin="4">
+                <Button DockPanel.Dock="Right" Content="Apply" Width="70" Margin="4,0,0,0" Command="{Binding AskAiCommand}" />
+                <TextBox Text="{Binding AiInstruction, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Ví dụ: tấm tối đa 2.4m, khe 15mm, cách cửa 200mm, ký hiệu PW" />
+            </DockPanel>
+        </GroupBox>
+
+        <GroupBox DockPanel.Dock="Top" Header="Panel rules (mm)" Margin="0,0,0,8">
+            <Grid Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions><RowDefinition /><RowDefinition /></Grid.RowDefinitions>
+
+                <TextBlock Text="Max width" />
+                <TextBox Grid.Column="1" Text="{Binding MaxPanelWidth, UpdateSourceTrigger=LostFocus}" />
+                <TextBlock Grid.Column="2" Text="Min width" />
+                <TextBox Grid.Column="3" Text="{Binding MinPanelWidth, UpdateSourceTrigger=LostFocus}" />
+                <TextBlock Grid.Column="4" Text="Joint" />
+                <TextBox Grid.Column="5" Text="{Binding JointWidth, UpdateSourceTrigger=LostFocus}" />
+
+                <TextBlock Grid.Row="1" Text="Opening clearance" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding OpeningClearance, UpdateSourceTrigger=LostFocus}" />
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Mark prefix" />
+                <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding MarkPrefix, UpdateSourceTrigger=LostFocus}" />
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="Anchor (kg)" />
+                <TextBox Grid.Row="1" Grid.Column="5" Text="{Binding AnchorCapacityKg, UpdateSourceTrigger=LostFocus}" />
+            </Grid>
+        </GroupBox>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Content="Create Parts" Width="100" Margin="0,0,8,0" IsDefault="True" Command="{Binding AcceptCommand}" />
+            <Button Content="Cancel" Width="80" IsCancel="True" Command="{Binding CancelCommand}" />
+        </StackPanel>
+
+        <TextBlock DockPanel.Dock="Bottom" Text="{Binding Status}" TextWrapping="Wrap" Foreground="#2B6B52" Margin="0,6,0,0" />
+
+        <!-- Elevation preview: one rectangle per panel, scaled to the wall length -->
+        <Border DockPanel.Dock="Top" BorderBrush="#DDD" BorderThickness="1" Height="70" Margin="0,0,0,8" Padding="4">
+            <ItemsControl ItemsSource="{Binding Panels}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><Canvas /></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding PreviewLeft}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:PanelRow}">
+                        <Border Width="{Binding PreviewWidth}" Height="58" Background="#E3EFE9" BorderBrush="#2B6B52" BorderThickness="1">
+                            <TextBlock Text="{Binding Mark}" HorizontalAlignment="Center" FontSize="11" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <DataGrid ItemsSource="{Binding Panels}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mark" Binding="{Binding Mark}" />
+                <DataGridTextColumn Header="Start (mm)" Binding="{Binding StartMm, StringFormat=0}" />
+                <DataGridTextColumn Header="Width (mm)" Binding="{Binding WidthMm, StringFormat=0}" />
+                <DataGridTextColumn Header="Openings" Binding="{Binding OpeningCount}" />
+                <DataGridTextColumn Header="Weight (kg)" Binding="{Binding WeightKg, StringFormat=0}" />
+                <DataGridTextColumn Header="Lifting anchors" Binding="{Binding AnchorCount}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

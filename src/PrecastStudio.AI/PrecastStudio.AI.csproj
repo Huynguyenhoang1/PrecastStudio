@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Description>Turns natural-language instructions (Vietnamese or English) into validated panelization options using Claude.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Anthropic" Version="12.53.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PrecastStudio.Core\PrecastStudio.Core.csproj" />
+  </ItemGroup>
+
+</Project>
