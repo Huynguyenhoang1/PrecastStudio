@@ -1,5 +1,6 @@
 # Precast Studio — Revit add-in for precast wall panelization (with AI commands)
-n[![build](https://github.com/Huynguyenhoang1/PrecastStudio/actions/workflows/build.yml/badge.svg)](https://github.com/Huynguyenhoang1/PrecastStudio/actions/workflows/build.yml)
+
+[![build](https://github.com/Huynguyenhoang1/PrecastStudio/actions/workflows/build.yml/badge.svg)](https://github.com/Huynguyenhoang1/PrecastStudio/actions/workflows/build.yml)
 
 A small but complete Revit add-in that turns a cast-in-place wall into **precast panels**:
 
